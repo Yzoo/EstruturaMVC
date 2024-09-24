@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>{{titulo}}</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <form id="form">
+                    <div class="modal fade" id="precadastro" data-bs-backdrop="static" data-bs-keyboard="false"
+                        tabindex="-1" aria-labelledby="precadastroLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="precadastroLabel">Pré cadastro</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="alert alert-warning" role="alert" id="alert">
+                                    Todos os campos com <span class="text text-danger">*</span> são obrigatórios!
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="nome" name="nome"
+                                            placeholder="name@example.com">
+                                        <label for="floatingInput"><span class="text text-danger">*</span>Nome</label>
+                                    </div>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="login" name="login"
+                                            placeholder="name@example.com">
+                                        <label for="floatingInput"><span class="text text-danger">*</span>Login</label>
+                                    </div>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-floating mb-3">
+                                        <input type="email" class="form-control" id="email" name="email"
+                                            placeholder="name@example.com">
+                                        <label for="floatingInput"><span class="text text-danger">*</span>E-mail</label>
+                                    </div>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-floating mb-3">
+                                        <input type="password" class="form-control" id="password" name="password"
+                                            placeholder="name@example.com">
+                                        <label for="floatingInput"><span class="text text-danger">*</span>Senha</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary"
+                                    data-bs-dismiss="modal">Cancelar</button>
+                                <button type="button" id="salvar" class="btn btn-primary">Salvar</button>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="formGroupExampleInput" class="form-label">Usuário</label>
+                        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="">
+                    </div>
+                    <div class="mb-3">
+                        <label for="formGroupExampleInput2" class="form-label">E-mail</label>
+                        <input type="email" class="form-control" id="formGroupExampleInput2" placeholder="">
+                    </div>
+                    <button type="button" class="btn btn-primary">Login</button>
+                    <button type="button" class="btn btn-link">Esqueceu a senha?</button>
+                    <button type="button" class="btn btn-link" data-bs-toggle="modal"
+                        data-bs-target="#precadastro">Pré-cadastro</button>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="/js/login.js"></script>
+</body>
+
+</html>
