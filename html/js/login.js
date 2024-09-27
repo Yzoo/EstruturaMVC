@@ -1,4 +1,6 @@
 const salvar = document.getElementById('btnsalvar');
+const Alerta = document.getElementById('alert');
+
 async function Insert() {
     const form = document.getElementById('form');
     const formData = new FormData(form);
@@ -6,15 +8,29 @@ async function Insert() {
         method: 'POST',
         body: formData
     };
-    const response = await fetch('/login/insert', opt);
+    const response = await fetch('/cadastro/insert', opt);
     const json = await response.json();
-    if (json.status != true) {
-        alert('Verique os dados digitados e tente novamente!');
+    return json;
+}
+
+async function insert() {
+    Alerta.className = 'alert alert-info';
+    Alerta.innerHTML = 'Salvando, por favor aguarde...';
+    const response = await Insert();
+    if (response.status !== true) {
+        Alerta.className = 'alert alert-danger';
+        Alerta.innerHTML = response.msg;
+        setTimeout(() => {
+            Alerta.className = 'alert alert-warning';
+            Alerta.innerHTML = 'Todos os campos com <span class="text text-danger">*</span> são obrigatórios!';
+        }, 2000);
         return;
     }
-    alert('Usuario cadastrado com sucesso!');
-    return;
+    Alerta.className = 'alert alert-success';
+    Alerta.innerHTML = response.msg;
 }
-salvar.addEventListener('click', async () => {
+salvar.addEventListener('click', async (event) => {
+    event.preventDefault(); // Impede o envio padrão do formulário
     await Insert();
+
 });

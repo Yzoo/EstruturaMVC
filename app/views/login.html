@@ -17,12 +17,15 @@
                 <form action="" id="form">
                     <div class="modal fade" id="precadastro" tabindex="-1" aria-labelledby="precadastroLabel"
                         aria-hidden="true">
-                        <div class="modal-dialog">
+                        <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h1 class="modal-title fs-5" id="exampleModalLabel">Pré-Cadastro</h1>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
+                                </div>
+                                <div class="alert alert-warning" role="alert" id="alert">
+                                    Todos os campos com <span class="text text-danger">*</span> são obrigatórios!
                                 </div>
                                 <div class="modal-body">
                                     <div class="form-floating mb-3">
@@ -38,7 +41,7 @@
                                         <label for="floatingInput">E-mail</label>
                                     </div>
                                     <div class="form-floating mb-3">
-                                        <input type="password" class="form-control" id="password" name="password"
+                                        <input type="password" class="form-control" id="senha" name="senha"
                                             placeholder="">
                                         <label for="floatingInput">Senha</label>
                                     </div>
@@ -46,7 +49,7 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"
                                         data-bs-dismiss="modal">Cancelar</button>
-                                    <button type="button" id="btnsalvar" class="btn btn-primary">Salvar</button>
+                                    <button type="submit" id="btnsalvar" class="btn btn-primary">Salvar</button>
                                 </div>
                             </div>
                         </div>
@@ -55,7 +58,7 @@
         </div>
     </div>
     </form>
-    <div class="container">
+    <div class="container d-flex justify-content-center" style="margin: 15% auto; width: 25%;">
         <div class="row">
             <div class="col-12">
                 <div class="mb-3">

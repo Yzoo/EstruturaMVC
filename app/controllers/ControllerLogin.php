@@ -20,7 +20,7 @@ class ControllerLogin extends Base
             ->withHeader('Content-Type', 'text/html')
             ->withStatus(200);
     }
-    public function insert($request, $response)
+    public function insert($request, $response, $args)
     {
         try {
             $form = $request->getParsedBody();
@@ -59,8 +59,15 @@ class ControllerLogin extends Base
             return $response->withStatus(201)
                 ->withHeader('Content-type', 'application/json');
         } catch (\Exception $e) {
-            return $response->withStatus(403)
+            $data = [
+                'status' => false,
+                'msg' => 'Erro: ' . $e->getMessage(),
+            ];
+            $json = json_encode($data, JSON_UNESCAPED_UNICODE);
+            $response->getBody()->write($json);
+            return $response->withStatus(500)
                 ->withHeader('Content-type', 'application/json');
         }
     }
 }
+sleep(2);
