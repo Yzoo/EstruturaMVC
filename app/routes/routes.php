@@ -14,6 +14,7 @@ $app->post('/usuario', ControllerLogin::class . ':autenticacao');
 $app->post('/sessao', ControllerLogin::class . ':verificaAutenticacaoUsuario');
 
 
+
 $app->group('/cliente', function (RouteCollectorProxy $group) {
     $group->get('/cadastro', ControllerCliente::class . ':cadastro');
 });

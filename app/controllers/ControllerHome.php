@@ -19,7 +19,7 @@ class ControllerHome extends Base
     public function Update($request, $response)
     {
         $FieldsAndValues = [];
-        $IsSave = UpdateQuery::table('users')
+        $IsSave = UpdateQuery::table('usuarios')
             ->set($FieldsAndValues)
             ->where('id', '=', 1)
             ->update();

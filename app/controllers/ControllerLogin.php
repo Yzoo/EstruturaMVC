@@ -5,9 +5,9 @@ namespace app\controllers;
 use app\database\builder\InsertQuery;
 use app\database\builder\SelectQuery;
 
+
 class ControllerLogin extends Base
 {
-
     public function login($request, $response)
     {
         $templateData = [
@@ -22,134 +22,85 @@ class ControllerLogin extends Base
             ->withStatus(200);
     }
 
-        public function insert($request, $response)
+    public function insert($request, $response)
     {
-        try {   
-                     #Recupera os dados do nome e converte para uma string.
+        try {
+            // Recupera os dados do formulário
             $form = $request->getParsedBody();
             $email = filter_var($form['email'], FILTER_UNSAFE_RAW);
             $senha = password_hash(filter_var($form['senha'], FILTER_UNSAFE_RAW), PASSWORD_DEFAULT);
             $nome = filter_var($form['nome'], FILTER_UNSAFE_RAW);
             $login = filter_var($form['login'], FILTER_UNSAFE_RAW);
-            
 
+            // Tenta salvar os dados do usuário
+            $isSave = InsertQuery::table('usuarios')->save([
+                'email' => $email,
+                'senha' => $senha,
+                'nome' => $nome,
+                'login' => $login,
+            ]);
 
-
-            $IsSave = InsertQuery::table('usuarios')
-                ->save([
-
-                    'email'     =>   $email,
-                    'senha'     =>   $senha,
-                    'nome'      =>   $nome,
-                    'login'     =>   $login,
-                    
-
-                ]);
-
-
-
-            if ($IsSave != true) {
-                $data = [
-                    'status' => false,
-                    'msg' => 'Restrição: ' . $IsSave,
-                    'id' => 0
-                ];
-                $json = json_encode($data, JSON_UNESCAPED_UNICODE);
-                $response->getBody()
-                    ->write($json);
-                return $response->withStatus(403)
-                    ->withHeader('Content-type', 'application/json');
+            // Verifica se a operação de salvamento foi bem-sucedida
+            if (!$isSave) {
+                return $this->respondWithJson($response, false, 'Restrição: ' . $isSave, 403);
             }
-            $data = [
-                'status' => true,
-                'msg' => 'Registro salvo com sucesso!',
-                'id' => 0
-            ];
-            $json = json_encode($data, JSON_UNESCAPED_UNICODE);
-            $response->getBody()
-                ->write($json);
-            return $response
-                ->withStatus(201)
-                ->withHeader('Content-type', 'application/json');
-        } catch (\Exception $e) {
 
-            var_dump($e->getMessage());
-            throw new \PDOException("ERRO ERRO ERRO ERRO ERRO ERRO ERRO" . $e->getMessage());
+            return $this->respondWithJson($response, true, 'Registro salvo com sucesso!', 201);
+        } catch (\Exception $e) {
+            return $this->respondWithJson($response, false, 'Erro: ' . $e->getMessage(), 500);
         }
     }
 
     public function autenticacao($request, $response)
     {
         try {
+            // Obtendo o login e a senha do formulário
             $form = $request->getParsedBody();
-            $login = filter_var($form['login'], FILTER_UNSAFE_RAW);
-            $senha = filter_var($form['senha'], FILTER_UNSAFE_RAW);
+            $login = filter_var($form['login'] ?? '', FILTER_UNSAFE_RAW);
+            $senha = filter_var($form['senha'] ?? '', FILTER_UNSAFE_RAW);
+            var_dump($form);
 
-            $usuario = SelectQuery::select()
+            // Verifique se o login e a senha estão preenchidos
+            if (empty($login) && empty($senha)) {
+                return $this->respondWithJson($response, false, 'Login e senha são obrigatórios!', 400);
+            }
+
+            $user = SelectQuery::select()
                 ->from('usuarios')
                 ->where('login', '=', $login)
                 ->fetch();
 
-            if (!$usuario || !password_verify($senha, $usuario['senha'])) {
-                $data = [
-                    'status' => false,
-                    'msg' => 'Restrição: Não foi possível Logar.',
-                    'id' => 0
-                ];
-                $json = json_encode($data, JSON_UNESCAPED_UNICODE);
-                $response->getBody()
-                    ->write($json);
-                return $response->withStatus(403)
-                    ->withHeader('Content-type', 'application/json');
-                {
-                    $templateData = [
-                        'titulo' => 'Usuario'
-                    ];
-                    return $this->getTwig()->render(
-                        $response,
-                        $this->setView('usuario'),
-                        $templateData
-                    )
-                        ->withHeader('Content-Type', 'text/html')
-                        ->withStatus(200);
-                }
+            // Checagem do usuário
+            if (!$user) {
+                return $this->respondWithJson($response, false, 'Usuário não encontrado!', 403);
+            }
+
+            // Checagem de senha
+            if (!password_verify($senha, $user['senha'])) {
+                return $this->respondWithJson($response, false, 'Senha incorreta!', 403);
             }
 
             // Criação da sessão do usuário
-            $_SESSION['login'] = [
+            $_SESSION['usuario'] = [
                 'logado' => true,
-                'nome' => $_SESSION['nome'],
-                'login' => $_SESSION['login']
+                'nome' => $user['nome']
             ];
 
-            return $response->withHeader('Location', '/home')->withStatus(302);
+            return $this->respondWithJson($response, true, 'Usuário logado!', 200);
         } catch (\Exception $e) {
-            return $this->respondWithJson($response, [
-                'status' => false,
-                'msg' => 'Erro ao processar a autenticação.'
-            ], 500);
+            return $this->respondWithJson($response, false, 'Erro: ' . $e->getMessage(), 500);
         }
     }
 
-    public function logout($request, $response)
+    private function respondWithJson($response, $status, $message, $httpStatus)
     {
-        session_destroy(); // Destroi a sessão
-        return $this->respondWithJson($response, [
-            'status' => true,
-            'msg' => 'Logout realizado com sucesso!'
-        ], 200);
-    }
-
-    public function verificaAutenticacaoUsuario()
-    {
-        return isset($_SESSION['login']);
-    }
-
-    private function respondWithJson($response, $data, $status)
-    {
+        $data = [
+            'status' => $status,
+            'msg' => $message,
+        ];
         $json = json_encode($data, JSON_UNESCAPED_UNICODE);
-        return $response->withStatus($status)
-            ->withHeader('Content-Type', 'application/json')
-            ->write($json);
+        $response->getBody()->write($json);
+        return $response->withStatus($httpStatus)
+            ->withHeader('Content-type', 'application/json');
     }
 }
