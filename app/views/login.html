@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 
 <head>
@@ -30,26 +31,27 @@
                                 <div class="modal-body">
                                     <div class="form-floating mb-3">
                                         <input type="text" class="form-control" id="nome" name="nome" placeholder="">
-                                        <label for="floatingInput">Nome</label>
+                                        <label for="floatingInput">Nome<span class="text text-danger">*</span> </label>
                                     </div>
                                     <div class="form-floating mb-3">
                                         <input type="text" class="form-control" id="login" name="login" placeholder="">
-                                        <label for="floatingInput">Login</label>
+                                        <label for="floatingInput">Login<span class="text text-danger">*</span> </label>
                                     </div>
                                     <div class="form-floating mb-3">
                                         <input type="email" class="form-control" id="email" name="email" placeholder="">
-                                        <label for="floatingInput">E-mail</label>
+                                        <label for="floatingInput">E-mail<span class="text text-danger">*</span>
+                                        </label>
                                     </div>
                                     <div class="form-floating mb-3">
                                         <input type="password" class="form-control" id="senha" name="senha"
                                             placeholder="">
-                                        <label for="floatingInput">Senha</label>
+                                        <label for="floatingInput">Senha<span class="text text-danger">*</span> </label>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Cancelar</button>
-                                    <button type="submit" id="btnsalvar" class="btn btn-primary">Salvar</button>
+                                        data-bs-dismiss="modal">Sair</button>
+                                    <button type="button" id="btnsalvar" class="btn btn-primary">Salvar</button>
                                 </div>
                             </div>
                         </div>
@@ -61,22 +63,24 @@
     <div class="container d-flex justify-content-center" style="margin: 15% auto; width: 25%;">
         <div class="row">
             <div class="col-12">
-                <div class="mb-3">
-                    <label for="formGroupExampleInput2" class="form-label">E-mail</label>
-                    <input type="email" class="form-control" id="formGroupExampleInput2" placeholder="">
-                </div>
-                <div class="mb-3">
-                    <label for="formGroupExampleInput" class="form-label">Senha</label>
-                    <input type="password" class="form-control" id="formGroupExampleInput" placeholder="">
-                </div>
-                <input type="checkbox" name="lembre" id="lembre"> Lembre-me
-                <div>
-                    <br>
-                    <button type="button" id="logar" class="btn btn-primary">Login</button>
-                    <button type="button" class="btn btn-link">Esqueceu a senha?</button>
-                    <button type="button" class="btn btn-link" data-bs-toggle="modal"
-                        data-bs-target="#precadastro">Pré-cadastro</button>
-                </div>
+                <form action="" method="POST">
+                    <div class="mb-3">
+                        <label for="formGroupExampleInput2" name="login" class="form-label">Login</label>
+                        <input type="text" class="form-control" id="loginInput" placeholder="">
+                    </div>
+                    <div class="mb-3">
+                        <label for="formGroupExampleInput" class="form-label">Senha</label>
+                        <input type="password" name="senha" class="form-control" id="senhaInput" placeholder="">
+                    </div>
+                    <input type="checkbox" name="lembre" id="lembre"> Lembre-me
+                    <div>
+                        <br>
+                        <button type="button" id="logar" class="btn btn-primary">Login</button>
+                        <button type="button" class="btn btn-link">Esqueceu a senha?</button>
+                        <button type="button" class="btn btn-link" data-bs-toggle="modal"
+                            data-bs-target="#precadastro">Pré-cadastro</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
